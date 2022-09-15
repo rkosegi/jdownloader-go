@@ -117,14 +117,23 @@ type DownloadPackage struct {
 }
 
 type Downloader interface {
+	//Packages queries information about existing packages
 	Packages(...LinkGrabberQueryPackagesOptions) (*[]DownloadPackage, error)
+	//Links queries information about existing links
 	Links(...DownloadQueryLinksOptions) (*[]DownloadLink, error)
+	//Remove removes given links and/or packages
 	Remove([]int64, []int64) error
+	//Start starts download process
 	Start() (bool, error)
+	//Stop stops download process
 	Stop() (bool, error)
+	//Pause pauses download process
 	Pause() (bool, error)
+	//Speed get current download speed
 	Speed() (*DownloadSpeedInfo, error)
+	//Force forces download of given links/packages
 	Force([]int64, []int64) error
+	//State gets currect state of download process
 	State() (*DownloadState, error)
 }
 
