@@ -190,7 +190,6 @@ type LinkGrabber interface {
 }
 
 type linkGrabber struct {
-	LinkGrabber
 	log *zap.SugaredLogger
 	d   *jDevice
 }

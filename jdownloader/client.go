@@ -50,7 +50,6 @@ type sessionInfo struct {
 }
 
 type jDownloaderClient struct {
-	JdClient
 	connected             bool
 	email                 string
 	counter               int64
@@ -221,7 +220,7 @@ func (j *jDownloaderClient) updateTokens(newToken []byte) {
 func (j *jDownloaderClient) reconnectIfNecessary() error {
 	j.lastCallLock.Lock()
 	defer j.lastCallLock.Unlock()
-	if time.Now().Sub(j.lastCall).Seconds() > 30 {
+	if !j.connected || time.Now().Sub(j.lastCall).Seconds() > 30 {
 		j.lastCall = time.Now()
 		return j.Connect()
 	}

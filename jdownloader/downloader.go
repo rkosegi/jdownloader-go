@@ -129,7 +129,6 @@ type Downloader interface {
 }
 
 type downloadController struct {
-	Downloader
 	l *zap.SugaredLogger
 	d *jDevice
 }
