@@ -220,7 +220,7 @@ func (j *jDownloaderClient) updateTokens(newToken []byte) {
 func (j *jDownloaderClient) reconnectIfNecessary() error {
 	j.lastCallLock.Lock()
 	defer j.lastCallLock.Unlock()
-	if !j.connected || time.Now().Sub(j.lastCall).Seconds() > 30 {
+	if !j.connected || time.Since(j.lastCall).Seconds() > 30 {
 		j.lastCall = time.Now()
 		return j.Connect()
 	}

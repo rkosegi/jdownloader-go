@@ -157,7 +157,7 @@ func DefaultLinkGrabberQueryLinksOptions() LinkGrabberQueryLinksOptions {
 }
 
 type CrawledLink struct {
-	Availability     *string `json:"availability,omitempty	"`
+	Availability     *string `json:"availability,omitempty"`
 	BytesTotal       *uint64 `json:"bytesTotal,omitempty"`
 	Comment          *string `json:"comment,omitempty"`
 	DownloadPassword *string `json:"downloadPassword,omitempty"`

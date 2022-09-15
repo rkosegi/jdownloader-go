@@ -21,7 +21,6 @@ import "github.com/pkg/errors"
 type MockClient struct {
 	devs      *[]DeviceInfo
 	connected bool
-	id        string
 }
 
 func (m *MockClient) SetDevices(devs *[]DeviceInfo) {
