@@ -233,7 +233,7 @@ func (j *jDownloaderClient) do(path string, method string, data []byte, key [32]
 	defer j.lock.Unlock()
 	uri := fmt.Sprintf("%s%s", j.endpoint, path)
 	var resp *http.Response
-	j.log.Infof("%s %s @ %d", method, uri, j.currentRid())
+	j.log.Debugf("%s %s @ %d", method, uri, j.currentRid())
 	if http.MethodGet == method {
 		resp, err = j.client.Get(uri)
 	} else {
@@ -246,7 +246,7 @@ func (j *jDownloaderClient) do(path string, method string, data []byte, key [32]
 	if err != nil {
 		return nil, err
 	}
-	j.log.Infof("HTTP%d @ %d", resp.StatusCode, j.currentRid())
+	j.log.Debugf("HTTP%d @ %d", resp.StatusCode, j.currentRid())
 	defer bodycloser(resp.Body, j.log)
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
