@@ -2,7 +2,6 @@
 
 This repository hosts code for [JDownloader](https://jdownloader.org/) client written in Go
 
-
 ### Example usage
 
 #### Add link and start download

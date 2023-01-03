@@ -23,7 +23,7 @@ import (
 	"fmt"
 	"github.com/pkg/errors"
 	"go.uber.org/zap"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"strconv"
 	"strings"
@@ -248,7 +248,7 @@ func (j *jDownloaderClient) do(path string, method string, data []byte, key [32]
 	}
 	j.log.Debugf("HTTP%d @ %d", resp.StatusCode, j.currentRid())
 	defer bodycloser(resp.Body, j.log)
-	body, err := ioutil.ReadAll(resp.Body)
+	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return nil, errors.Wrap(err, "unable to fully consume response body")
 	}
