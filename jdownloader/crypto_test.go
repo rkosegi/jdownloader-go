@@ -39,7 +39,7 @@ func TestEncryptDecryptLong(t *testing.T) {
 	_, err := r.Read(data)
 	assert.Nil(t, err)
 	encrypted, _ := encrypt(data, key)
-	//t.Log(base64.StdEncoding.EncodeToString(encrypted))
+	// t.Log(base64.StdEncoding.EncodeToString(encrypted))
 	decrypted, _ := decrypt(encrypted, key)
 	assert.Equal(t, decrypted, data)
 }

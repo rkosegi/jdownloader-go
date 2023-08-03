@@ -48,8 +48,8 @@ func decrypt(ciphertext []byte, key [32]byte) ([]byte, error) {
 	return plaintext, nil
 }
 
-//encrypt Encrypts plaintext using AES-128 with provided key
-//first half of key is IV and second half is actual key
+// encrypt Encrypts plaintext using AES-128 with provided key
+// first half of key is IV and second half is actual key
 func encrypt(plaintext []byte, key [32]byte) ([]byte, error) {
 	block, err := aes.NewCipher(key[16:])
 	if err != nil {
@@ -62,7 +62,7 @@ func encrypt(plaintext []byte, key [32]byte) ([]byte, error) {
 	return ciphertext, nil
 }
 
-//sign Signs uri with key using Sha256HMAC
+// sign Signs uri with key using Sha256HMAC
 func sign(uri string, key []byte) string {
 	h := hmac.New(sha256.New, key)
 	h.Write([]byte(uri))

@@ -53,20 +53,20 @@ type DataResponse struct {
 }
 
 type JdClient interface {
-	//Connect connects to device and obtains session key
+	// Connect connects to device and obtains session key
 	Connect() error
-	//IsConnected returns true if client is connected to API server
+	// IsConnected returns true if client is connected to API server
 	IsConnected() bool
-	//Reconnect reconnects client to API server
+	// Reconnect reconnects client to API server
 	Reconnect() error
-	//Disconnect disconnects client from API server
+	// Disconnect disconnects client from API server
 	Disconnect() error
-	//ListDevices lists all devices associated with account used to connect to API server
+	// ListDevices lists all devices associated with account used to connect to API server
 	ListDevices() (*[]DeviceInfo, error)
-	//Device gets specific device instance based on device name
+	// Device gets specific device instance based on device name
 	Device(string) (Device, error)
-	//ConfigHash return hash code of configuration.
-	//This method can be used to determine if there was configuration change
+	// ConfigHash return hash code of configuration.
+	// This method can be used to determine if there was configuration change
 	ConfigHash() string
 }
 

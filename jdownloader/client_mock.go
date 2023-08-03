@@ -77,7 +77,7 @@ type MockDevice struct {
 }
 
 func (d *MockDevice) LinkGrabber() LinkGrabber {
-	//TODO implement me
+	// TODO implement me
 	panic("implement me")
 }
 
@@ -88,7 +88,7 @@ func (d *MockDevice) Downloader() Downloader {
 }
 
 func (d *MockDevice) Name() string {
-	//TODO implement me
+	// TODO implement me
 	panic("implement me")
 }
 
@@ -105,12 +105,12 @@ func (d *MockDevice) ConnectionInfo() (*DirectConnectionInfo, error) {
 }
 
 func (d *MockDevice) Packages(...LinkGrabberQueryPackagesOptions) (*[]DownloadPackage, error) {
-	//TODO implement me
+	// TODO implement me
 	panic("implement me")
 }
 
 func (d *MockDevice) Links(...DownloadQueryLinksOptions) (*[]DownloadLink, error) {
-	//TODO implement me
+	// TODO implement me
 	panic("implement me")
 }
 
@@ -127,7 +127,7 @@ func (dw *MockDownloader) Remove([]int64, []int64) error {
 }
 
 func (dw *MockDownloader) Packages(...LinkGrabberQueryPackagesOptions) (*[]DownloadPackage, error) {
-	//TODO implement me
+	// TODO implement me
 	panic("implement me")
 }
 
@@ -136,12 +136,12 @@ func (dw *MockDownloader) Links(...DownloadQueryLinksOptions) (*[]DownloadLink, 
 }
 
 func (dw *MockDownloader) Start() (bool, error) {
-	//TODO implement me
+	// TODO implement me
 	panic("implement me")
 }
 
 func (dw *MockDownloader) Stop() (bool, error) {
-	//TODO implement me
+	// TODO implement me
 	panic("implement me")
 }
 

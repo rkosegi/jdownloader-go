@@ -38,15 +38,15 @@ type DirectConnectionInfo struct {
 }
 
 type Device interface {
-	//LinkGrabber gets reference to LinkGrabber interface
+	// LinkGrabber gets reference to LinkGrabber interface
 	LinkGrabber() LinkGrabber
-	//Downloader gets reference to Downloader interface
+	// Downloader gets reference to Downloader interface
 	Downloader() Downloader
-	//Name gets this device's name
+	// Name gets this device's name
 	Name() string
-	//Id gets this device's ID
+	// Id gets this device's ID
 	Id() string
-	//Status get this device's status
+	// Status get this device's status
 	Status() string
 	// ConnectionInfo gets direct connection info
 	ConnectionInfo() (*DirectConnectionInfo, error)
