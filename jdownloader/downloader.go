@@ -247,3 +247,5 @@ func (dc *downloadController) State() (*DownloadState, error) {
 	state := data.Data.(string)
 	return &DownloadState{State: &state}, nil
 }
+
+var _ Downloader = &downloadController{}

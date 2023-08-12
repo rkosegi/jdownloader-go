@@ -53,7 +53,6 @@ type Device interface {
 }
 
 type jDevice struct {
-	Device
 	id     string
 	name   string
 	status string
@@ -149,3 +148,5 @@ func (d *jDevice) doDevice(action string, marshal bool, params ...interface{}) (
 	}
 	return result, nil
 }
+
+var _ Device = &jDevice{}

@@ -292,3 +292,5 @@ func queryPackages(prefix string, d *jDevice, options ...LinkGrabberQueryPackage
 	}
 	return &items, nil
 }
+
+var _ LinkGrabber = &linkGrabber{}

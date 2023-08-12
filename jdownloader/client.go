@@ -284,3 +284,5 @@ func (j *jDownloaderClient) onApiDone(err error, start time.Time) {
 		j.afterCallFn(err, time.Since(start))
 	}
 }
+
+var _ JdClient = &jDownloaderClient{}
