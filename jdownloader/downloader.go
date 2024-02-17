@@ -133,7 +133,7 @@ type Downloader interface {
 	Speed() (*DownloadSpeedInfo, error)
 	// Force forces download of given links/packages
 	Force([]int64, []int64) error
-	// State gets currect state of download process
+	// State gets current state of download process
 	State() (*DownloadState, error)
 }
 
