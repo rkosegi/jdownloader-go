@@ -21,7 +21,6 @@ import (
 	"encoding/hex"
 	"encoding/json"
 	"fmt"
-	"github.com/pkg/errors"
 	"go.uber.org/zap"
 	"io"
 	"net/http"
@@ -117,7 +116,7 @@ func (j *jDownloaderClient) Device(name string) (_ Device, err error) {
 		}
 	}
 	if dev == nil {
-		return nil, errors.Errorf("no such device: %s", name)
+		return nil, fmt.Errorf("no such device: %s", name)
 	}
 	return &jDevice{
 		id:     dev.Id,
@@ -138,19 +137,19 @@ func (j *jDownloaderClient) Connect() (err error) {
 		qp("appkey", strings.ToLower(j.appKey)),
 	}, nil, j.loginSecret)
 	if err != nil {
-		return errors.Wrap(err, "API doServer failed")
+		return fmt.Errorf("API doServer failed: %v", err)
 	}
 	session := &sessionInfo{}
 	err = json.Unmarshal(data, session)
 	if err != nil {
-		return errors.Wrap(err, "invalid payload received from server")
+		return fmt.Errorf("invalid payload received from server: %v", err)
 	}
 	if j.currentRid() != session.ResponseID {
-		return errors.Errorf("mismatched RID, expected: %d, actual: %d", j.currentRid(), session.ResponseID)
+		return fmt.Errorf("mismatched RID, expected: %d, actual: %d", j.currentRid(), session.ResponseID)
 	}
 	newToken, err := hex.DecodeString(session.SessionToken)
 	if err != nil {
-		return errors.Wrap(err, "unable to decode session token from response")
+		return fmt.Errorf("unable to decode session token from response: %v", err)
 	}
 	j.sessionToken = session.SessionToken
 	j.regainToken = session.RegainToken
@@ -189,14 +188,14 @@ func (j *jDownloaderClient) Reconnect() (err error) {
 	session := &sessionInfo{}
 	err = json.Unmarshal(data, session)
 	if err != nil {
-		return errors.Wrap(err, "invalid payload received from server")
+		return fmt.Errorf("invalid payload received from server: %v", err)
 	}
 	if j.currentRid() != session.ResponseID {
-		return errors.Errorf("mismatched RID, expected: %d, actual: %d", j.currentRid(), session.ResponseID)
+		return fmt.Errorf("mismatched RID, expected: %d, actual: %d", j.currentRid(), session.ResponseID)
 	}
 	newToken, err := hex.DecodeString(session.SessionToken)
 	if err != nil {
-		return errors.Wrap(err, "unable to decode session token from response")
+		return fmt.Errorf("unable to decode session token from response: %v", err)
 	}
 	j.sessionToken = session.SessionToken
 	j.regainToken = session.RegainToken
@@ -250,11 +249,11 @@ func (j *jDownloaderClient) do(path string, method string, data []byte, key [32]
 	defer bodycloser(resp.Body, j.log)
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
-		return nil, errors.Wrap(err, "unable to fully consume response body")
+		return nil, fmt.Errorf("unable to fully consume response body: %v", err)
 	}
 	if resp.StatusCode != http.StatusOK {
 		e := parseError(body, key, j.log)
-		return nil, errors.Errorf("API doServer failed: %v", e)
+		return nil, fmt.Errorf("API doServer failed: %v", e)
 	} else {
 		return decode(body, key)
 	}

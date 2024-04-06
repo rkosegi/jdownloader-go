@@ -24,14 +24,13 @@ import (
 	"crypto/sha256"
 	"encoding/base64"
 	"fmt"
-	"github.com/pkg/errors"
 	"strings"
 )
 
 func decode(body []byte, key [32]byte) ([]byte, error) {
 	decoded, err := base64.StdEncoding.DecodeString(string(body))
 	if err != nil {
-		return nil, errors.Wrap(err, "can't decode base64 string")
+		return nil, fmt.Errorf("can't decode base64 string: %v", err)
 	}
 	return decrypt(decoded, key)
 }

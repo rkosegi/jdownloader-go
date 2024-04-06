@@ -16,7 +16,9 @@ limitations under the License.
 
 package jdownloader
 
-import "github.com/pkg/errors"
+import (
+	"fmt"
+)
 
 type MockClient struct {
 	devs      *[]DeviceInfo
@@ -57,7 +59,7 @@ func (m *MockClient) Device(name string) (Device, error) {
 			}, nil
 		}
 	}
-	return nil, errors.Errorf("no such device: %s", name)
+	return nil, fmt.Errorf("no such device: %s", name)
 }
 
 func (m *MockClient) ConfigHash() string {
