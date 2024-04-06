@@ -20,7 +20,6 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
-	"github.com/pkg/errors"
 	"go.uber.org/zap"
 	"net/http"
 	"net/url"
@@ -102,7 +101,7 @@ func serializeParams(marshal bool, params ...interface{}) ([]interface{}, error)
 		if marshal {
 			s, err := json.Marshal(p)
 			if err != nil {
-				return nil, errors.WithMessagef(err, "unable to marshal parameter into json string: %v", p)
+				return nil, fmt.Errorf("unable to marshal parameter into json string: %v:\n%v", err, p)
 			}
 			ps = append(ps, string(s))
 		} else {

@@ -17,8 +17,8 @@ limitations under the License.
 package jdownloader
 
 import (
+	"errors"
 	"fmt"
-	"github.com/pkg/errors"
 	"go.uber.org/zap"
 	"strings"
 )
