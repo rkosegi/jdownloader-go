@@ -20,9 +20,10 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
-	"go.uber.org/zap"
 	"net/http"
 	"net/url"
+
+	"go.uber.org/zap"
 )
 
 type DirectConnectionPort struct {
@@ -112,6 +113,11 @@ func serializeParams(marshal bool, params ...interface{}) ([]interface{}, error)
 }
 
 func (d *jDevice) doDevice(action string, marshal bool, params ...interface{}) (_ *DataResponse, err error) {
+	// Ensure impl is not nil
+	if d.impl == nil {
+		return nil, fmt.Errorf("device implementation is not initialized")
+	}
+
 	err = d.impl.reconnectIfNecessary()
 	if err != nil {
 		return nil, err
