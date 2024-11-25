@@ -17,7 +17,7 @@ module github.com/rkosegi/jdownloader-go
 go 1.23
 
 require (
-	github.com/stretchr/testify v1.9.0
+	github.com/stretchr/testify v1.10.0
 	go.uber.org/zap v1.27.0
 )
 
