@@ -12,12 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-module github.com/nasoooor/jdownloader-go
+module github.com/nasoooor29/jdownloader-go
 
 go 1.23
 
 require (
-	github.com/rkosegi/jdownloader-go v1.0.3
 	github.com/stretchr/testify v1.10.0
 	go.uber.org/zap v1.27.0
 )
