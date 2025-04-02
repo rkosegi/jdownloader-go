@@ -19,8 +19,9 @@ package jdownloader
 import (
 	"errors"
 	"fmt"
-	"go.uber.org/zap"
 	"strings"
+
+	"go.uber.org/zap"
 )
 
 type AddLinksParams struct {
@@ -65,26 +66,26 @@ func AddLinksOptionExtractPassword(pass string) AddLinksOptions {
 }
 
 type QueryPackagesParams struct {
-	AvailableOfflineCount     *bool     `json:"availableOfflineCount,omitempty"`
-	AvailableOnlineCount      *bool     `json:"availableOnlineCount,omitempty"`
-	AvailableTempUnknownCount *bool     `json:"availableTempUnknownCount,omitempty"`
-	AvailableUnknownCount     *bool     `json:"availableUnknownCount,omitempty"`
-	BytesTotal                *bool     `json:"bytesTotal,omitempty"`
-	ChildCount                *bool     `json:"childCount,omitempty"`
-	Comment                   *bool     `json:"comment,omitempty"`
-	Enabled                   *bool     `json:"enabled,omitempty"`
-	Hosts                     *bool     `json:"hosts,omitempty"`
-	MaxResults                *int      `json:"maxResults,omitempty"`
-	PackageUUIDs              *[]string `json:"packageUUIDs,omitempty"`
-	Priority                  *bool     `json:"priority,omitempty"`
-	SaveTo                    *bool     `json:"saveTo,omitempty"`
-	StartAt                   *int      `json:"startAt,omitempty"`
-	Status                    *bool     `json:"status,omitempty"`
+	AvailableOfflineCount     *bool    `json:"availableOfflineCount,omitempty"`
+	AvailableOnlineCount      *bool    `json:"availableOnlineCount,omitempty"`
+	AvailableTempUnknownCount *bool    `json:"availableTempUnknownCount,omitempty"`
+	AvailableUnknownCount     *bool    `json:"availableUnknownCount,omitempty"`
+	BytesTotal                *bool    `json:"bytesTotal,omitempty"`
+	ChildCount                *bool    `json:"childCount,omitempty"`
+	Comment                   *bool    `json:"comment,omitempty"`
+	Enabled                   *bool    `json:"enabled,omitempty"`
+	Hosts                     *bool    `json:"hosts,omitempty"`
+	MaxResults                *int     `json:"maxResults,omitempty"`
+	PackageUUIDs              *[]int64 `json:"packageUUIDs,omitempty"`
+	Priority                  *bool    `json:"priority,omitempty"`
+	SaveTo                    *bool    `json:"saveTo,omitempty"`
+	StartAt                   *int     `json:"startAt,omitempty"`
+	Status                    *bool    `json:"status,omitempty"`
 }
 
 type LinkGrabberQueryPackagesOptions func(params *QueryPackagesParams)
 
-func LinkGrabberQueryPackagesOptionPackageUUIDs(uuids []string) LinkGrabberQueryPackagesOptions {
+func LinkGrabberQueryPackagesOptionPackageUUIDs(uuids []int64) LinkGrabberQueryPackagesOptions {
 	return func(params *QueryPackagesParams) {
 		params.PackageUUIDs = &uuids
 	}
@@ -187,6 +188,8 @@ type LinkGrabber interface {
 	Remove([]int64, []int64) error
 	// RenameLink renames link
 	RenameLink(int64, string) error
+
+	MoveToDownloadList(linkIds []int64, packageIds []int64) error
 }
 
 type linkGrabber struct {
@@ -270,6 +273,14 @@ func (l *linkGrabber) Clear() error {
 
 func (l *linkGrabber) RenameLink(id int64, name string) error {
 	_, err := l.d.doDevice("/linkgrabberv2/renameLink", false, id, name)
+	return err
+}
+
+func (l *linkGrabber) MoveToDownloadList(linkIds []int64, packageIds []int64) error {
+	if len(linkIds) == 0 && len(packageIds) == 0 {
+		return errors.New("One of linkIds or packageIds must not be empty")
+	}
+	_, err := l.d.doDevice("/linkgrabberv2/moveToDownloadlist", false, linkIds, packageIds)
 	return err
 }
 
