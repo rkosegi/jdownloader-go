@@ -14,7 +14,7 @@
 
 module github.com/rkosegi/jdownloader-go
 
-go 1.23
+go 1.24.1
 
 require (
 	github.com/stretchr/testify v1.10.0
