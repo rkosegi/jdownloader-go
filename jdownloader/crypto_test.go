@@ -17,10 +17,11 @@ limitations under the License.
 package jdownloader
 
 import (
-	"github.com/stretchr/testify/assert"
 	"math/rand"
 	"testing"
 	"time"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestCreateSecret(t *testing.T) {

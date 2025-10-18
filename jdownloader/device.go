@@ -20,10 +20,9 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
+	"log/slog"
 	"net/http"
 	"net/url"
-
-	"go.uber.org/zap"
 )
 
 type DirectConnectionPort struct {
@@ -56,7 +55,7 @@ type jDevice struct {
 	id     string
 	name   string
 	status string
-	log    *zap.SugaredLogger
+	log    *slog.Logger
 	impl   *jDownloaderClient
 }
 

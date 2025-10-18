@@ -19,8 +19,8 @@ package jdownloader
 import (
 	"encoding/json"
 	"fmt"
-	"go.uber.org/zap"
 	"io"
+	"log/slog"
 	"net/url"
 )
 
@@ -35,7 +35,7 @@ func toObj(response *DataResponse, dst interface{}) error {
 	return json.Unmarshal(data, dst)
 }
 
-func parseError(data []byte, key [32]byte, log *zap.SugaredLogger) map[string]interface{} {
+func parseError(data []byte, key [32]byte, log *slog.Logger) map[string]interface{} {
 	// 1, try simple json unmarshal
 	var v map[string]interface{}
 	err := json.Unmarshal(data, &v)
@@ -43,12 +43,12 @@ func parseError(data []byte, key [32]byte, log *zap.SugaredLogger) map[string]in
 	if err != nil {
 		decoded, err := decode(data, key)
 		if err != nil {
-			log.Warnf("unable to decrypt error response: %v", err)
+			log.Warn("unable to decrypt error response", "error", err)
 		} else {
 			// 3, now try to unmarshal error
 			err = json.Unmarshal(decoded, &v)
 			if err != nil {
-				log.Warnf("error response is not a json: %v", err)
+				log.Warn("error response is not a json", "error", err)
 				return nil
 			} else {
 				return v
@@ -65,9 +65,9 @@ func qp(key string, value string) string {
 	return fmt.Sprintf("%s=%s", key, url.QueryEscape(value))
 }
 
-func bodycloser(b io.ReadCloser, log *zap.SugaredLogger) {
+func bodycloser(b io.ReadCloser, log *slog.Logger) {
 	err := b.Close()
 	if err != nil {
-		log.Warnf("error while closing reader: %v", err)
+		log.Warn("error while closing reader", "error", err)
 	}
 }

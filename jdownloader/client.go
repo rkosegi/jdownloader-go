@@ -21,8 +21,8 @@ import (
 	"encoding/hex"
 	"encoding/json"
 	"fmt"
-	"go.uber.org/zap"
 	"io"
+	"log/slog"
 	"net/http"
 	"strconv"
 	"strings"
@@ -61,7 +61,7 @@ type jDownloaderClient struct {
 	sessionToken          string
 	regainToken           string
 	lock                  sync.Mutex
-	log                   *zap.SugaredLogger
+	log                   *slog.Logger
 	configHash            string
 	lastCall              time.Time
 	lastCallLock          sync.Mutex
@@ -121,7 +121,7 @@ func (j *jDownloaderClient) Device(name string) (_ Device, err error) {
 	return &jDevice{
 		id:     dev.Id,
 		name:   dev.Name,
-		log:    j.log.Named(dev.Name),
+		log:    j.log.With("device", dev.Name),
 		impl:   j,
 		status: dev.Status,
 	}, nil
@@ -232,7 +232,7 @@ func (j *jDownloaderClient) do(path string, method string, data []byte, key [32]
 	defer j.lock.Unlock()
 	uri := fmt.Sprintf("%s%s", j.endpoint, path)
 	var resp *http.Response
-	j.log.Debugf("%s %s @ %d", method, uri, j.currentRid())
+	j.log.Debug("Request", "method", method, "uri", uri, "rid", j.currentRid())
 	if http.MethodGet == method {
 		resp, err = j.client.Get(uri)
 	} else {
@@ -245,7 +245,7 @@ func (j *jDownloaderClient) do(path string, method string, data []byte, key [32]
 	if err != nil {
 		return nil, err
 	}
-	j.log.Debugf("HTTP%d @ %d", resp.StatusCode, j.currentRid())
+	j.log.Debug("Response", "status", resp.StatusCode, "rid", j.currentRid())
 	defer bodycloser(resp.Body, j.log)
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {

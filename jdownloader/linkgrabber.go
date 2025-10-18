@@ -19,7 +19,7 @@ package jdownloader
 import (
 	"errors"
 	"fmt"
-	"go.uber.org/zap"
+	"log/slog"
 	"strings"
 )
 
@@ -190,13 +190,13 @@ type LinkGrabber interface {
 }
 
 type linkGrabber struct {
-	log *zap.SugaredLogger
+	log *slog.Logger
 	d   *jDevice
 }
 
-func newLinkGrabber(log *zap.SugaredLogger, device *jDevice) LinkGrabber {
+func newLinkGrabber(log *slog.Logger, device *jDevice) LinkGrabber {
 	return &linkGrabber{
-		log: log.Named("links"),
+		log: log.With("component", "links"),
 		d:   device,
 	}
 }

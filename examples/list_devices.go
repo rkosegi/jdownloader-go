@@ -18,8 +18,9 @@ package main
 
 import (
 	"fmt"
+	"log/slog"
+
 	"github.com/rkosegi/jdownloader-go/jdownloader"
-	"go.uber.org/zap"
 )
 
 const (
@@ -28,13 +29,7 @@ const (
 )
 
 func main() {
-	logger, _ := zap.NewProduction()
-
-	defer func(logger *zap.Logger) {
-		_ = logger.Sync()
-	}(logger)
-
-	c := jdownloader.NewClient(mail, password, logger.Sugar())
+	c := jdownloader.NewClient(mail, password, slog.Default())
 	devs, err := c.ListDevices()
 	if err != nil {
 		panic(err)

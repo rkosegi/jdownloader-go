@@ -18,7 +18,7 @@ package jdownloader
 
 import (
 	"errors"
-	"go.uber.org/zap"
+	"log/slog"
 )
 
 type DownloadState struct {
@@ -138,14 +138,14 @@ type Downloader interface {
 }
 
 type downloadController struct {
-	l *zap.SugaredLogger
+	l *slog.Logger
 	d *jDevice
 }
 
-func newDownloadController(log *zap.SugaredLogger, d *jDevice) Downloader {
+func newDownloadController(log *slog.Logger, d *jDevice) Downloader {
 	return &downloadController{
 		d: d,
-		l: log.Named("download"),
+		l: log.With("component", "download"),
 	}
 }
 

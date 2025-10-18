@@ -17,7 +17,7 @@ limitations under the License.
 package jdownloader
 
 import (
-	"go.uber.org/zap"
+	"log/slog"
 	"net/http"
 	"time"
 )
@@ -70,7 +70,7 @@ type JdClient interface {
 	ConfigHash() string
 }
 
-func NewClient(email string, password string, logger *zap.SugaredLogger, opts ...ClientOption) JdClient {
+func NewClient(email string, password string, logger *slog.Logger, opts ...ClientOption) JdClient {
 	c := &jDownloaderClient{
 		connected: false,
 		email:     email,
