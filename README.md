@@ -11,16 +11,12 @@ package main
 
 import (
 	"github.com/rkosegi/jdownloader-go/jdownloader"
-	"go.uber.org/zap"
+	"log/slog"
 )
 
 func main() {
-	logger, err := zap.NewDevelopment()
-	if err != nil {
-		panic(err)
-	}
-	c := jdownloader.NewClient("test@acme.tld", "passw0rd", logger.Sugar())
-	err = c.Connect()
+	c := jdownloader.NewClient("test@acme.tld", "passw0rd", slog.Default())
+	err := c.Connect()
 	if err != nil {
 		panic(err)
 	}
