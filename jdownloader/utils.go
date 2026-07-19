@@ -41,18 +41,16 @@ func parseError(data []byte, key [32]byte, log *slog.Logger) map[string]interfac
 	err := json.Unmarshal(data, &v)
 	// 2, if that doesn't work, it must be encrypted
 	if err != nil {
-		decoded, err := decode(data, key)
-		if err != nil {
+		var decoded []byte
+		if decoded, err = decode(data, key); err != nil {
 			log.Warn("unable to decrypt error response", "error", err)
 		} else {
 			// 3, now try to unmarshal error
-			err = json.Unmarshal(decoded, &v)
-			if err != nil {
+			if err = json.Unmarshal(decoded, &v); err != nil {
 				log.Warn("error response is not a json", "error", err)
 				return nil
-			} else {
-				return v
 			}
+			return v
 		}
 	} else {
 		return v
