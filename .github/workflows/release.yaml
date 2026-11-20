@@ -12,21 +12,17 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 ---
-name: tag release
+name: Create release on tag push
 on:
   push:
     tags:
       - v*
 
 permissions:
-  packages: write
-  contents: write
+  contents: read
 
 jobs:
   release:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v7.0.1
-      - uses: softprops/action-gh-release@v3
-        with:
-          generate_release_notes: true
+    permissions:
+      contents: write
+    uses: rkosegi/github-workflows/.github/workflows/release-on-tag.yaml@6b051e22fcf9056ff77e553d6307a6d9b361b438 # v0.0.7

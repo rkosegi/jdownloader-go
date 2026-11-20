@@ -35,4 +35,3 @@ func main() {
 	_ = c.Disconnect()
 }
 ```
-
