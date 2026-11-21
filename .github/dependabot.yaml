@@ -25,4 +25,11 @@ updates:
   - package-ecosystem: github-actions
     directory: /
     schedule:
-      interval: daily
+      interval: weekly
+    groups:
+      codeql-actions:
+        patterns:
+          - github/codeql-action*
+      rkosegi-workflows:
+        patterns:
+          - rkosegi/github-workflows*
